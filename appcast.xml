@@ -1,0 +1,492 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle">
+  <channel>
+    <title>Hexagit Desktop</title>
+    <link>https://github.com/mDynamic-git/hexagit-releases/releases</link>
+    <description>Versions d'Hexagit Desktop (Massive Dynamic)</description>
+    <language>fr</language>
+    <item>
+      <title>Hexagit 0.33.0</title>
+      <description>
+Recette : mise à jour automatique sur les trois systèmes (HGRE7), avec les réserves de la 1.45 (HGRE7-6). Signature
+des paquets (HXG-33) toujours en attente des comptes.
+
+### Ajouté
+- Mise à jour automatique d'Hexagit Desktop (HXG-32) : flux signé Ed25519 (NetSparkle, sans son interface) dans le dépôt
+  public `mDynamic-git/hexagit-releases`, vérifié au lancement (une fois par jour) et sur demande (Réglages › À propos) ;
+  canaux stable et bêta ; fenêtre « Installer et redémarrer / Plus tard / Ignorer cette version » ; paquet vérifié avant
+  installation, flux ou paquet altéré refusé ; Windows et macOS : nouvelle version posée à côté puis échangée au
+  redémarrage, AppImage remplacée, .deb / .rpm / tar.gz : lien ; `Hexagit --mettre-a-jour` sans interface ; coupure par
+  réglage, `HEXAGIT_NO_UPDATE` ou `desktopUpdates: false` (politique d'équipe) ; CI : étiquette `desktop-vX.Y.Z` →
+  version bêta publiée, promotion en stable après recette. Procédure : `docs/mises-a-jour.md`.
+- Page Équipe : CI verte du premier coup sur les PR fusionnées (HXG-101, Epic HXG-95), Desktop et extension :
+  indicateur de l'équipe, colonnes par personne et par dépôt. Une PR est « verte du premier coup » quand le premier
+  résultat de CI terminé sur ses commits, du plus ancien au plus récent, est un succès ; une PR sans CI terminée ne
+  compte pas (« non mesuré », jamais 0 %). Lecture : GitHub dans la même recherche GraphQL que les PR (état combiné
+  des 20 premiers commits), GitLab (premier pipeline de la MR) et Gitea (statut des premiers commits), pour les 60 PR
+  les plus récentes sur ces deux forges.
+- Page Équipe : agents et coût IA (HXG-100, Epic HXG-95), Desktop et extension :
+  - part du code écrite avec un agent sur la période : lignes ajoutées par commit (historique git local des dépôts
+    suivis, branche courante, sans les fusions ; « avec un agent » : ligne `Agent:` ou co-auteur d'agent), par auteur
+    relié par l'annuaire (adresse git) et par dépôt ; une copie de travail compte une fois avec son dépôt ;
+  - coût IA (€ HT), tokens et sessions par personne, d'après les fichiers `postes/*.json` déjà publiés dans le dépôt de
+    gouvernance (poste rattaché à la fiche du même nom), et par fournisseur ; même visibilité que les tickets et les PR ;
+  - l'usage publié par chaque poste porte désormais le nombre de sessions actives par jour (`sessions`, 0 dans les
+    fichiers des postes d'avant la 1.46 : « non mesuré » tant qu'aucun poste ne le publie).
+- Page Équipe : PR fusionnées et revues des dépôts suivis (HXG-99, Epic HXG-95), Desktop et extension, lues sur les
+  forges avec les jetons du poste (rien n'est publié, relu au plus tous les quarts d'heure) :
+  - PR fusionnées sur la période et écart avec la précédente, dont celles faites avec un agent (branche `tache/*` ou
+    signature d'agent dans le titre ou la description), par semaine en barres empilées humaines / avec un agent ;
+  - revues données (PR relues par une autre personne), délai médian ouverture → première revue ;
+  - lien ticket ↔ PR par une clé dans la branche, le titre ou une ligne `Refs:` ; délai médian création du ticket →
+    fusion ; PR sans ticket comptées par dépôt ;
+  - par personne (login de la forge relié par l'annuaire, même visibilité que les tickets) et par dépôt ;
+  - lecture : GitHub par une recherche GraphQL (relectures datées comprises ; sans jeton, liste REST sans relectures),
+    GitLab (approbations non datées : revues « non mesurées »), Gitea (relectures des 60 PR les plus récentes) ;
+    Bitbucket et Azure DevOps : « non mesuré » ; 300 PR au plus par dépôt ;
+  - la page s'ouvre aussi sans outil de tickets relié : elle montre alors les PR et propose de relier un outil.
+- Page Équipe, entre Sécurité et Gouvernance IA (HXG-98, Epic HXG-95), Desktop et extension : les tickets de l'outil
+  relié pour les projets des dépôts suivis, calculés sur ce poste avec ses jetons (rien n'est publié, relu au plus tous
+  les quarts d'heure) :
+  - tickets traités sur 7, 30 ou 90 jours et écart avec la période précédente, en cours, en revue, à faire, sans
+    responsable, délai médian création → résolution (date de création lue dans Jira et Linear) ;
+  - tickets traités par semaine (six semaines ISO) ;
+  - par personne, d'après le responsable du ticket relié par l'annuaire (« non relié » sinon) : un non-responsable voit
+    sa ligne, « non assigné » et les totaux ; avertissement quand plus d'un ticket traité sur quatre n'a pas de
+    responsable (répartition peu fiable) ;
+  - par projet de l'outil.
+- Annuaire de l'équipe et responsables, premier pas de la vue Équipe sur données réelles (HXG-97, Epic HXG-95) :
+  - chaque poste propose ses identifiants dans son fichier `postes/&lt;nom&gt;.json` du dépôt de gouvernance : e-mails git
+    (globale et des dépôts suivis), login sur les forges des dépôts suivis, compte de l'outil de tickets ; relevés au
+    plus une fois par jour, ou par « Relever mes identifiants » ;
+  - un responsable les valide : ils sont recopiés dans `personnes.json`, seule source pour attribuer plus tard commits,
+    PR, revues et tickets (une identité non reliée reste « non attribuée ») ;
+  - responsables listés dans `politique.json → leads` ; tant qu'aucun n'est déclaré, tout le monde voit tout et peut
+    valider (comportement d'avant) ; le dernier responsable ne peut pas se retirer ;
+  - dans la carte Équipe de Gouvernance IA (Desktop et extension), un non-responsable voit sa ligne et les totaux, les
+    autres personnes sont regroupées. Masquage d'affichage, pas une sécurité : les mêmes données restent lisibles dans
+    Jira et sur la forge.
+
+</description>
+      <pubDate>Mon, 12 Oct 2026 13:18:32 +00:00</pubDate>
+      <sparkle:version>0.33.0</sparkle:version>
+      <sparkle:shortVersionString>0.33.0</sparkle:shortVersionString>
+      <sparkle:channel>beta</sparkle:channel>
+      <enclosure url="https://github.com/mDynamic-git/hexagit-releases/releases/download/desktop-v0.33.0/Hexagit-0.33.0-linux-x64-portable.tar.gz" sparkle:version="0.33.0" sparkle:shortVersionString="0.33.0" length="45806573" sparkle:os="linux-portable-x64" type="application/octet-stream" sparkle:criticalUpdate="false" sparkle:signature="iUYwBsFaJAysMmQyGhzfhcHPIpgJ314B8qnqjiFBVf1FR+9ViK1VwKYeSX6Un7tyX+Iy8ka3pLuGSdoB51jHAQ==" />
+    </item>
+    <item>
+      <title>Hexagit 0.33.0</title>
+      <description>
+Recette : mise à jour automatique sur les trois systèmes (HGRE7), avec les réserves de la 1.45 (HGRE7-6). Signature
+des paquets (HXG-33) toujours en attente des comptes.
+
+### Ajouté
+- Mise à jour automatique d'Hexagit Desktop (HXG-32) : flux signé Ed25519 (NetSparkle, sans son interface) dans le dépôt
+  public `mDynamic-git/hexagit-releases`, vérifié au lancement (une fois par jour) et sur demande (Réglages › À propos) ;
+  canaux stable et bêta ; fenêtre « Installer et redémarrer / Plus tard / Ignorer cette version » ; paquet vérifié avant
+  installation, flux ou paquet altéré refusé ; Windows et macOS : nouvelle version posée à côté puis échangée au
+  redémarrage, AppImage remplacée, .deb / .rpm / tar.gz : lien ; `Hexagit --mettre-a-jour` sans interface ; coupure par
+  réglage, `HEXAGIT_NO_UPDATE` ou `desktopUpdates: false` (politique d'équipe) ; CI : étiquette `desktop-vX.Y.Z` →
+  version bêta publiée, promotion en stable après recette. Procédure : `docs/mises-a-jour.md`.
+- Page Équipe : CI verte du premier coup sur les PR fusionnées (HXG-101, Epic HXG-95), Desktop et extension :
+  indicateur de l'équipe, colonnes par personne et par dépôt. Une PR est « verte du premier coup » quand le premier
+  résultat de CI terminé sur ses commits, du plus ancien au plus récent, est un succès ; une PR sans CI terminée ne
+  compte pas (« non mesuré », jamais 0 %). Lecture : GitHub dans la même recherche GraphQL que les PR (état combiné
+  des 20 premiers commits), GitLab (premier pipeline de la MR) et Gitea (statut des premiers commits), pour les 60 PR
+  les plus récentes sur ces deux forges.
+- Page Équipe : agents et coût IA (HXG-100, Epic HXG-95), Desktop et extension :
+  - part du code écrite avec un agent sur la période : lignes ajoutées par commit (historique git local des dépôts
+    suivis, branche courante, sans les fusions ; « avec un agent » : ligne `Agent:` ou co-auteur d'agent), par auteur
+    relié par l'annuaire (adresse git) et par dépôt ; une copie de travail compte une fois avec son dépôt ;
+  - coût IA (€ HT), tokens et sessions par personne, d'après les fichiers `postes/*.json` déjà publiés dans le dépôt de
+    gouvernance (poste rattaché à la fiche du même nom), et par fournisseur ; même visibilité que les tickets et les PR ;
+  - l'usage publié par chaque poste porte désormais le nombre de sessions actives par jour (`sessions`, 0 dans les
+    fichiers des postes d'avant la 1.46 : « non mesuré » tant qu'aucun poste ne le publie).
+- Page Équipe : PR fusionnées et revues des dépôts suivis (HXG-99, Epic HXG-95), Desktop et extension, lues sur les
+  forges avec les jetons du poste (rien n'est publié, relu au plus tous les quarts d'heure) :
+  - PR fusionnées sur la période et écart avec la précédente, dont celles faites avec un agent (branche `tache/*` ou
+    signature d'agent dans le titre ou la description), par semaine en barres empilées humaines / avec un agent ;
+  - revues données (PR relues par une autre personne), délai médian ouverture → première revue ;
+  - lien ticket ↔ PR par une clé dans la branche, le titre ou une ligne `Refs:` ; délai médian création du ticket →
+    fusion ; PR sans ticket comptées par dépôt ;
+  - par personne (login de la forge relié par l'annuaire, même visibilité que les tickets) et par dépôt ;
+  - lecture : GitHub par une recherche GraphQL (relectures datées comprises ; sans jeton, liste REST sans relectures),
+    GitLab (approbations non datées : revues « non mesurées »), Gitea (relectures des 60 PR les plus récentes) ;
+    Bitbucket et Azure DevOps : « non mesuré » ; 300 PR au plus par dépôt ;
+  - la page s'ouvre aussi sans outil de tickets relié : elle montre alors les PR et propose de relier un outil.
+- Page Équipe, entre Sécurité et Gouvernance IA (HXG-98, Epic HXG-95), Desktop et extension : les tickets de l'outil
+  relié pour les projets des dépôts suivis, calculés sur ce poste avec ses jetons (rien n'est publié, relu au plus tous
+  les quarts d'heure) :
+  - tickets traités sur 7, 30 ou 90 jours et écart avec la période précédente, en cours, en revue, à faire, sans
+    responsable, délai médian création → résolution (date de création lue dans Jira et Linear) ;
+  - tickets traités par semaine (six semaines ISO) ;
+  - par personne, d'après le responsable du ticket relié par l'annuaire (« non relié » sinon) : un non-responsable voit
+    sa ligne, « non assigné » et les totaux ; avertissement quand plus d'un ticket traité sur quatre n'a pas de
+    responsable (répartition peu fiable) ;
+  - par projet de l'outil.
+- Annuaire de l'équipe et responsables, premier pas de la vue Équipe sur données réelles (HXG-97, Epic HXG-95) :
+  - chaque poste propose ses identifiants dans son fichier `postes/&lt;nom&gt;.json` du dépôt de gouvernance : e-mails git
+    (globale et des dépôts suivis), login sur les forges des dépôts suivis, compte de l'outil de tickets ; relevés au
+    plus une fois par jour, ou par « Relever mes identifiants » ;
+  - un responsable les valide : ils sont recopiés dans `personnes.json`, seule source pour attribuer plus tard commits,
+    PR, revues et tickets (une identité non reliée reste « non attribuée ») ;
+  - responsables listés dans `politique.json → leads` ; tant qu'aucun n'est déclaré, tout le monde voit tout et peut
+    valider (comportement d'avant) ; le dernier responsable ne peut pas se retirer ;
+  - dans la carte Équipe de Gouvernance IA (Desktop et extension), un non-responsable voit sa ligne et les totaux, les
+    autres personnes sont regroupées. Masquage d'affichage, pas une sécurité : les mêmes données restent lisibles dans
+    Jira et sur la forge.
+
+</description>
+      <pubDate>Mon, 12 Oct 2026 13:18:34 +00:00</pubDate>
+      <sparkle:version>0.33.0</sparkle:version>
+      <sparkle:shortVersionString>0.33.0</sparkle:shortVersionString>
+      <sparkle:channel>beta</sparkle:channel>
+      <enclosure url="https://github.com/mDynamic-git/hexagit-releases/releases/download/desktop-v0.33.0/Hexagit-0.33.0-macos-arm64.zip" sparkle:version="0.33.0" sparkle:shortVersionString="0.33.0" length="45847559" sparkle:os="macos-arm64" type="application/octet-stream" sparkle:criticalUpdate="false" sparkle:signature="fFgcwDvr2qnXE1LcPCrKCemivVU42Vd+vncGfn3aGgrG7cV/tagG7h/MOcYt7hUUfd2BGksR879u25xulMyxAQ==" />
+    </item>
+    <item>
+      <title>Hexagit 0.33.0</title>
+      <description>
+Recette : mise à jour automatique sur les trois systèmes (HGRE7), avec les réserves de la 1.45 (HGRE7-6). Signature
+des paquets (HXG-33) toujours en attente des comptes.
+
+### Ajouté
+- Mise à jour automatique d'Hexagit Desktop (HXG-32) : flux signé Ed25519 (NetSparkle, sans son interface) dans le dépôt
+  public `mDynamic-git/hexagit-releases`, vérifié au lancement (une fois par jour) et sur demande (Réglages › À propos) ;
+  canaux stable et bêta ; fenêtre « Installer et redémarrer / Plus tard / Ignorer cette version » ; paquet vérifié avant
+  installation, flux ou paquet altéré refusé ; Windows et macOS : nouvelle version posée à côté puis échangée au
+  redémarrage, AppImage remplacée, .deb / .rpm / tar.gz : lien ; `Hexagit --mettre-a-jour` sans interface ; coupure par
+  réglage, `HEXAGIT_NO_UPDATE` ou `desktopUpdates: false` (politique d'équipe) ; CI : étiquette `desktop-vX.Y.Z` →
+  version bêta publiée, promotion en stable après recette. Procédure : `docs/mises-a-jour.md`.
+- Page Équipe : CI verte du premier coup sur les PR fusionnées (HXG-101, Epic HXG-95), Desktop et extension :
+  indicateur de l'équipe, colonnes par personne et par dépôt. Une PR est « verte du premier coup » quand le premier
+  résultat de CI terminé sur ses commits, du plus ancien au plus récent, est un succès ; une PR sans CI terminée ne
+  compte pas (« non mesuré », jamais 0 %). Lecture : GitHub dans la même recherche GraphQL que les PR (état combiné
+  des 20 premiers commits), GitLab (premier pipeline de la MR) et Gitea (statut des premiers commits), pour les 60 PR
+  les plus récentes sur ces deux forges.
+- Page Équipe : agents et coût IA (HXG-100, Epic HXG-95), Desktop et extension :
+  - part du code écrite avec un agent sur la période : lignes ajoutées par commit (historique git local des dépôts
+    suivis, branche courante, sans les fusions ; « avec un agent » : ligne `Agent:` ou co-auteur d'agent), par auteur
+    relié par l'annuaire (adresse git) et par dépôt ; une copie de travail compte une fois avec son dépôt ;
+  - coût IA (€ HT), tokens et sessions par personne, d'après les fichiers `postes/*.json` déjà publiés dans le dépôt de
+    gouvernance (poste rattaché à la fiche du même nom), et par fournisseur ; même visibilité que les tickets et les PR ;
+  - l'usage publié par chaque poste porte désormais le nombre de sessions actives par jour (`sessions`, 0 dans les
+    fichiers des postes d'avant la 1.46 : « non mesuré » tant qu'aucun poste ne le publie).
+- Page Équipe : PR fusionnées et revues des dépôts suivis (HXG-99, Epic HXG-95), Desktop et extension, lues sur les
+  forges avec les jetons du poste (rien n'est publié, relu au plus tous les quarts d'heure) :
+  - PR fusionnées sur la période et écart avec la précédente, dont celles faites avec un agent (branche `tache/*` ou
+    signature d'agent dans le titre ou la description), par semaine en barres empilées humaines / avec un agent ;
+  - revues données (PR relues par une autre personne), délai médian ouverture → première revue ;
+  - lien ticket ↔ PR par une clé dans la branche, le titre ou une ligne `Refs:` ; délai médian création du ticket →
+    fusion ; PR sans ticket comptées par dépôt ;
+  - par personne (login de la forge relié par l'annuaire, même visibilité que les tickets) et par dépôt ;
+  - lecture : GitHub par une recherche GraphQL (relectures datées comprises ; sans jeton, liste REST sans relectures),
+    GitLab (approbations non datées : revues « non mesurées »), Gitea (relectures des 60 PR les plus récentes) ;
+    Bitbucket et Azure DevOps : « non mesuré » ; 300 PR au plus par dépôt ;
+  - la page s'ouvre aussi sans outil de tickets relié : elle montre alors les PR et propose de relier un outil.
+- Page Équipe, entre Sécurité et Gouvernance IA (HXG-98, Epic HXG-95), Desktop et extension : les tickets de l'outil
+  relié pour les projets des dépôts suivis, calculés sur ce poste avec ses jetons (rien n'est publié, relu au plus tous
+  les quarts d'heure) :
+  - tickets traités sur 7, 30 ou 90 jours et écart avec la période précédente, en cours, en revue, à faire, sans
+    responsable, délai médian création → résolution (date de création lue dans Jira et Linear) ;
+  - tickets traités par semaine (six semaines ISO) ;
+  - par personne, d'après le responsable du ticket relié par l'annuaire (« non relié » sinon) : un non-responsable voit
+    sa ligne, « non assigné » et les totaux ; avertissement quand plus d'un ticket traité sur quatre n'a pas de
+    responsable (répartition peu fiable) ;
+  - par projet de l'outil.
+- Annuaire de l'équipe et responsables, premier pas de la vue Équipe sur données réelles (HXG-97, Epic HXG-95) :
+  - chaque poste propose ses identifiants dans son fichier `postes/&lt;nom&gt;.json` du dépôt de gouvernance : e-mails git
+    (globale et des dépôts suivis), login sur les forges des dépôts suivis, compte de l'outil de tickets ; relevés au
+    plus une fois par jour, ou par « Relever mes identifiants » ;
+  - un responsable les valide : ils sont recopiés dans `personnes.json`, seule source pour attribuer plus tard commits,
+    PR, revues et tickets (une identité non reliée reste « non attribuée ») ;
+  - responsables listés dans `politique.json → leads` ; tant qu'aucun n'est déclaré, tout le monde voit tout et peut
+    valider (comportement d'avant) ; le dernier responsable ne peut pas se retirer ;
+  - dans la carte Équipe de Gouvernance IA (Desktop et extension), un non-responsable voit sa ligne et les totaux, les
+    autres personnes sont regroupées. Masquage d'affichage, pas une sécurité : les mêmes données restent lisibles dans
+    Jira et sur la forge.
+
+</description>
+      <pubDate>Mon, 12 Oct 2026 13:18:35 +00:00</pubDate>
+      <sparkle:version>0.33.0</sparkle:version>
+      <sparkle:shortVersionString>0.33.0</sparkle:shortVersionString>
+      <sparkle:channel>beta</sparkle:channel>
+      <enclosure url="https://github.com/mDynamic-git/hexagit-releases/releases/download/desktop-v0.33.0/Hexagit-0.33.0-macos-x64.zip" sparkle:version="0.33.0" sparkle:shortVersionString="0.33.0" length="48092536" sparkle:os="macos-x64" type="application/octet-stream" sparkle:criticalUpdate="false" sparkle:signature="17Mng2rHf+C8qyMpmhR/3M9EMaISYxCkRo2mVjT73IETJqfanY4etCVyZ5phYF4/W41IcjGh0LKzxEFXtbRRDQ==" />
+    </item>
+    <item>
+      <title>Hexagit 0.33.0</title>
+      <description>
+Recette : mise à jour automatique sur les trois systèmes (HGRE7), avec les réserves de la 1.45 (HGRE7-6). Signature
+des paquets (HXG-33) toujours en attente des comptes.
+
+### Ajouté
+- Mise à jour automatique d'Hexagit Desktop (HXG-32) : flux signé Ed25519 (NetSparkle, sans son interface) dans le dépôt
+  public `mDynamic-git/hexagit-releases`, vérifié au lancement (une fois par jour) et sur demande (Réglages › À propos) ;
+  canaux stable et bêta ; fenêtre « Installer et redémarrer / Plus tard / Ignorer cette version » ; paquet vérifié avant
+  installation, flux ou paquet altéré refusé ; Windows et macOS : nouvelle version posée à côté puis échangée au
+  redémarrage, AppImage remplacée, .deb / .rpm / tar.gz : lien ; `Hexagit --mettre-a-jour` sans interface ; coupure par
+  réglage, `HEXAGIT_NO_UPDATE` ou `desktopUpdates: false` (politique d'équipe) ; CI : étiquette `desktop-vX.Y.Z` →
+  version bêta publiée, promotion en stable après recette. Procédure : `docs/mises-a-jour.md`.
+- Page Équipe : CI verte du premier coup sur les PR fusionnées (HXG-101, Epic HXG-95), Desktop et extension :
+  indicateur de l'équipe, colonnes par personne et par dépôt. Une PR est « verte du premier coup » quand le premier
+  résultat de CI terminé sur ses commits, du plus ancien au plus récent, est un succès ; une PR sans CI terminée ne
+  compte pas (« non mesuré », jamais 0 %). Lecture : GitHub dans la même recherche GraphQL que les PR (état combiné
+  des 20 premiers commits), GitLab (premier pipeline de la MR) et Gitea (statut des premiers commits), pour les 60 PR
+  les plus récentes sur ces deux forges.
+- Page Équipe : agents et coût IA (HXG-100, Epic HXG-95), Desktop et extension :
+  - part du code écrite avec un agent sur la période : lignes ajoutées par commit (historique git local des dépôts
+    suivis, branche courante, sans les fusions ; « avec un agent » : ligne `Agent:` ou co-auteur d'agent), par auteur
+    relié par l'annuaire (adresse git) et par dépôt ; une copie de travail compte une fois avec son dépôt ;
+  - coût IA (€ HT), tokens et sessions par personne, d'après les fichiers `postes/*.json` déjà publiés dans le dépôt de
+    gouvernance (poste rattaché à la fiche du même nom), et par fournisseur ; même visibilité que les tickets et les PR ;
+  - l'usage publié par chaque poste porte désormais le nombre de sessions actives par jour (`sessions`, 0 dans les
+    fichiers des postes d'avant la 1.46 : « non mesuré » tant qu'aucun poste ne le publie).
+- Page Équipe : PR fusionnées et revues des dépôts suivis (HXG-99, Epic HXG-95), Desktop et extension, lues sur les
+  forges avec les jetons du poste (rien n'est publié, relu au plus tous les quarts d'heure) :
+  - PR fusionnées sur la période et écart avec la précédente, dont celles faites avec un agent (branche `tache/*` ou
+    signature d'agent dans le titre ou la description), par semaine en barres empilées humaines / avec un agent ;
+  - revues données (PR relues par une autre personne), délai médian ouverture → première revue ;
+  - lien ticket ↔ PR par une clé dans la branche, le titre ou une ligne `Refs:` ; délai médian création du ticket →
+    fusion ; PR sans ticket comptées par dépôt ;
+  - par personne (login de la forge relié par l'annuaire, même visibilité que les tickets) et par dépôt ;
+  - lecture : GitHub par une recherche GraphQL (relectures datées comprises ; sans jeton, liste REST sans relectures),
+    GitLab (approbations non datées : revues « non mesurées »), Gitea (relectures des 60 PR les plus récentes) ;
+    Bitbucket et Azure DevOps : « non mesuré » ; 300 PR au plus par dépôt ;
+  - la page s'ouvre aussi sans outil de tickets relié : elle montre alors les PR et propose de relier un outil.
+- Page Équipe, entre Sécurité et Gouvernance IA (HXG-98, Epic HXG-95), Desktop et extension : les tickets de l'outil
+  relié pour les projets des dépôts suivis, calculés sur ce poste avec ses jetons (rien n'est publié, relu au plus tous
+  les quarts d'heure) :
+  - tickets traités sur 7, 30 ou 90 jours et écart avec la période précédente, en cours, en revue, à faire, sans
+    responsable, délai médian création → résolution (date de création lue dans Jira et Linear) ;
+  - tickets traités par semaine (six semaines ISO) ;
+  - par personne, d'après le responsable du ticket relié par l'annuaire (« non relié » sinon) : un non-responsable voit
+    sa ligne, « non assigné » et les totaux ; avertissement quand plus d'un ticket traité sur quatre n'a pas de
+    responsable (répartition peu fiable) ;
+  - par projet de l'outil.
+- Annuaire de l'équipe et responsables, premier pas de la vue Équipe sur données réelles (HXG-97, Epic HXG-95) :
+  - chaque poste propose ses identifiants dans son fichier `postes/&lt;nom&gt;.json` du dépôt de gouvernance : e-mails git
+    (globale et des dépôts suivis), login sur les forges des dépôts suivis, compte de l'outil de tickets ; relevés au
+    plus une fois par jour, ou par « Relever mes identifiants » ;
+  - un responsable les valide : ils sont recopiés dans `personnes.json`, seule source pour attribuer plus tard commits,
+    PR, revues et tickets (une identité non reliée reste « non attribuée ») ;
+  - responsables listés dans `politique.json → leads` ; tant qu'aucun n'est déclaré, tout le monde voit tout et peut
+    valider (comportement d'avant) ; le dernier responsable ne peut pas se retirer ;
+  - dans la carte Équipe de Gouvernance IA (Desktop et extension), un non-responsable voit sa ligne et les totaux, les
+    autres personnes sont regroupées. Masquage d'affichage, pas une sécurité : les mêmes données restent lisibles dans
+    Jira et sur la forge.
+
+</description>
+      <pubDate>Mon, 12 Oct 2026 13:18:36 +00:00</pubDate>
+      <sparkle:version>0.33.0</sparkle:version>
+      <sparkle:shortVersionString>0.33.0</sparkle:shortVersionString>
+      <sparkle:channel>beta</sparkle:channel>
+      <enclosure url="https://github.com/mDynamic-git/hexagit-releases/releases/download/desktop-v0.33.0/Hexagit-0.33.0-win-x64-portable.zip" sparkle:version="0.33.0" sparkle:shortVersionString="0.33.0" length="44394457" sparkle:os="windows-x64" type="application/octet-stream" sparkle:criticalUpdate="false" sparkle:signature="zJJ4ETEjQfzzfk0aG7rce5RoX4tcs+GAmPhR4Ipp+c5uR+/7pZtt0xeUrIDvb8et6hy4+0pvGcF1nu7YcrniDg==" />
+    </item>
+    <item>
+      <title>Hexagit 0.33.0</title>
+      <description>
+Recette : mise à jour automatique sur les trois systèmes (HGRE7), avec les réserves de la 1.45 (HGRE7-6). Signature
+des paquets (HXG-33) toujours en attente des comptes.
+
+### Ajouté
+- Mise à jour automatique d'Hexagit Desktop (HXG-32) : flux signé Ed25519 (NetSparkle, sans son interface) dans le dépôt
+  public `mDynamic-git/hexagit-releases`, vérifié au lancement (une fois par jour) et sur demande (Réglages › À propos) ;
+  canaux stable et bêta ; fenêtre « Installer et redémarrer / Plus tard / Ignorer cette version » ; paquet vérifié avant
+  installation, flux ou paquet altéré refusé ; Windows et macOS : nouvelle version posée à côté puis échangée au
+  redémarrage, AppImage remplacée, .deb / .rpm / tar.gz : lien ; `Hexagit --mettre-a-jour` sans interface ; coupure par
+  réglage, `HEXAGIT_NO_UPDATE` ou `desktopUpdates: false` (politique d'équipe) ; CI : étiquette `desktop-vX.Y.Z` →
+  version bêta publiée, promotion en stable après recette. Procédure : `docs/mises-a-jour.md`.
+- Page Équipe : CI verte du premier coup sur les PR fusionnées (HXG-101, Epic HXG-95), Desktop et extension :
+  indicateur de l'équipe, colonnes par personne et par dépôt. Une PR est « verte du premier coup » quand le premier
+  résultat de CI terminé sur ses commits, du plus ancien au plus récent, est un succès ; une PR sans CI terminée ne
+  compte pas (« non mesuré », jamais 0 %). Lecture : GitHub dans la même recherche GraphQL que les PR (état combiné
+  des 20 premiers commits), GitLab (premier pipeline de la MR) et Gitea (statut des premiers commits), pour les 60 PR
+  les plus récentes sur ces deux forges.
+- Page Équipe : agents et coût IA (HXG-100, Epic HXG-95), Desktop et extension :
+  - part du code écrite avec un agent sur la période : lignes ajoutées par commit (historique git local des dépôts
+    suivis, branche courante, sans les fusions ; « avec un agent » : ligne `Agent:` ou co-auteur d'agent), par auteur
+    relié par l'annuaire (adresse git) et par dépôt ; une copie de travail compte une fois avec son dépôt ;
+  - coût IA (€ HT), tokens et sessions par personne, d'après les fichiers `postes/*.json` déjà publiés dans le dépôt de
+    gouvernance (poste rattaché à la fiche du même nom), et par fournisseur ; même visibilité que les tickets et les PR ;
+  - l'usage publié par chaque poste porte désormais le nombre de sessions actives par jour (`sessions`, 0 dans les
+    fichiers des postes d'avant la 1.46 : « non mesuré » tant qu'aucun poste ne le publie).
+- Page Équipe : PR fusionnées et revues des dépôts suivis (HXG-99, Epic HXG-95), Desktop et extension, lues sur les
+  forges avec les jetons du poste (rien n'est publié, relu au plus tous les quarts d'heure) :
+  - PR fusionnées sur la période et écart avec la précédente, dont celles faites avec un agent (branche `tache/*` ou
+    signature d'agent dans le titre ou la description), par semaine en barres empilées humaines / avec un agent ;
+  - revues données (PR relues par une autre personne), délai médian ouverture → première revue ;
+  - lien ticket ↔ PR par une clé dans la branche, le titre ou une ligne `Refs:` ; délai médian création du ticket →
+    fusion ; PR sans ticket comptées par dépôt ;
+  - par personne (login de la forge relié par l'annuaire, même visibilité que les tickets) et par dépôt ;
+  - lecture : GitHub par une recherche GraphQL (relectures datées comprises ; sans jeton, liste REST sans relectures),
+    GitLab (approbations non datées : revues « non mesurées »), Gitea (relectures des 60 PR les plus récentes) ;
+    Bitbucket et Azure DevOps : « non mesuré » ; 300 PR au plus par dépôt ;
+  - la page s'ouvre aussi sans outil de tickets relié : elle montre alors les PR et propose de relier un outil.
+- Page Équipe, entre Sécurité et Gouvernance IA (HXG-98, Epic HXG-95), Desktop et extension : les tickets de l'outil
+  relié pour les projets des dépôts suivis, calculés sur ce poste avec ses jetons (rien n'est publié, relu au plus tous
+  les quarts d'heure) :
+  - tickets traités sur 7, 30 ou 90 jours et écart avec la période précédente, en cours, en revue, à faire, sans
+    responsable, délai médian création → résolution (date de création lue dans Jira et Linear) ;
+  - tickets traités par semaine (six semaines ISO) ;
+  - par personne, d'après le responsable du ticket relié par l'annuaire (« non relié » sinon) : un non-responsable voit
+    sa ligne, « non assigné » et les totaux ; avertissement quand plus d'un ticket traité sur quatre n'a pas de
+    responsable (répartition peu fiable) ;
+  - par projet de l'outil.
+- Annuaire de l'équipe et responsables, premier pas de la vue Équipe sur données réelles (HXG-97, Epic HXG-95) :
+  - chaque poste propose ses identifiants dans son fichier `postes/&lt;nom&gt;.json` du dépôt de gouvernance : e-mails git
+    (globale et des dépôts suivis), login sur les forges des dépôts suivis, compte de l'outil de tickets ; relevés au
+    plus une fois par jour, ou par « Relever mes identifiants » ;
+  - un responsable les valide : ils sont recopiés dans `personnes.json`, seule source pour attribuer plus tard commits,
+    PR, revues et tickets (une identité non reliée reste « non attribuée ») ;
+  - responsables listés dans `politique.json → leads` ; tant qu'aucun n'est déclaré, tout le monde voit tout et peut
+    valider (comportement d'avant) ; le dernier responsable ne peut pas se retirer ;
+  - dans la carte Équipe de Gouvernance IA (Desktop et extension), un non-responsable voit sa ligne et les totaux, les
+    autres personnes sont regroupées. Masquage d'affichage, pas une sécurité : les mêmes données restent lisibles dans
+    Jira et sur la forge.
+
+</description>
+      <pubDate>Mon, 12 Oct 2026 13:18:37 +00:00</pubDate>
+      <sparkle:version>0.33.0</sparkle:version>
+      <sparkle:shortVersionString>0.33.0</sparkle:shortVersionString>
+      <sparkle:channel>beta</sparkle:channel>
+      <enclosure url="https://github.com/mDynamic-git/hexagit-releases/releases/download/desktop-v0.33.0/Hexagit-0.33.0-x86_64.AppImage" sparkle:version="0.33.0" sparkle:shortVersionString="0.33.0" length="42703352" sparkle:os="linux-appimage-x64" type="application/octet-stream" sparkle:criticalUpdate="false" sparkle:signature="pM0cBTCwRHxmonoBidyodeefCAVmpE48avb4OcbtvnT0p9BitluvN56srfQyEe8Ikba2Z6v95hPMlfc/Pu2mCg==" />
+    </item>
+    <item>
+      <title>Hexagit 0.33.0</title>
+      <description>
+Recette : mise à jour automatique sur les trois systèmes (HGRE7), avec les réserves de la 1.45 (HGRE7-6). Signature
+des paquets (HXG-33) toujours en attente des comptes.
+
+### Ajouté
+- Mise à jour automatique d'Hexagit Desktop (HXG-32) : flux signé Ed25519 (NetSparkle, sans son interface) dans le dépôt
+  public `mDynamic-git/hexagit-releases`, vérifié au lancement (une fois par jour) et sur demande (Réglages › À propos) ;
+  canaux stable et bêta ; fenêtre « Installer et redémarrer / Plus tard / Ignorer cette version » ; paquet vérifié avant
+  installation, flux ou paquet altéré refusé ; Windows et macOS : nouvelle version posée à côté puis échangée au
+  redémarrage, AppImage remplacée, .deb / .rpm / tar.gz : lien ; `Hexagit --mettre-a-jour` sans interface ; coupure par
+  réglage, `HEXAGIT_NO_UPDATE` ou `desktopUpdates: false` (politique d'équipe) ; CI : étiquette `desktop-vX.Y.Z` →
+  version bêta publiée, promotion en stable après recette. Procédure : `docs/mises-a-jour.md`.
+- Page Équipe : CI verte du premier coup sur les PR fusionnées (HXG-101, Epic HXG-95), Desktop et extension :
+  indicateur de l'équipe, colonnes par personne et par dépôt. Une PR est « verte du premier coup » quand le premier
+  résultat de CI terminé sur ses commits, du plus ancien au plus récent, est un succès ; une PR sans CI terminée ne
+  compte pas (« non mesuré », jamais 0 %). Lecture : GitHub dans la même recherche GraphQL que les PR (état combiné
+  des 20 premiers commits), GitLab (premier pipeline de la MR) et Gitea (statut des premiers commits), pour les 60 PR
+  les plus récentes sur ces deux forges.
+- Page Équipe : agents et coût IA (HXG-100, Epic HXG-95), Desktop et extension :
+  - part du code écrite avec un agent sur la période : lignes ajoutées par commit (historique git local des dépôts
+    suivis, branche courante, sans les fusions ; « avec un agent » : ligne `Agent:` ou co-auteur d'agent), par auteur
+    relié par l'annuaire (adresse git) et par dépôt ; une copie de travail compte une fois avec son dépôt ;
+  - coût IA (€ HT), tokens et sessions par personne, d'après les fichiers `postes/*.json` déjà publiés dans le dépôt de
+    gouvernance (poste rattaché à la fiche du même nom), et par fournisseur ; même visibilité que les tickets et les PR ;
+  - l'usage publié par chaque poste porte désormais le nombre de sessions actives par jour (`sessions`, 0 dans les
+    fichiers des postes d'avant la 1.46 : « non mesuré » tant qu'aucun poste ne le publie).
+- Page Équipe : PR fusionnées et revues des dépôts suivis (HXG-99, Epic HXG-95), Desktop et extension, lues sur les
+  forges avec les jetons du poste (rien n'est publié, relu au plus tous les quarts d'heure) :
+  - PR fusionnées sur la période et écart avec la précédente, dont celles faites avec un agent (branche `tache/*` ou
+    signature d'agent dans le titre ou la description), par semaine en barres empilées humaines / avec un agent ;
+  - revues données (PR relues par une autre personne), délai médian ouverture → première revue ;
+  - lien ticket ↔ PR par une clé dans la branche, le titre ou une ligne `Refs:` ; délai médian création du ticket →
+    fusion ; PR sans ticket comptées par dépôt ;
+  - par personne (login de la forge relié par l'annuaire, même visibilité que les tickets) et par dépôt ;
+  - lecture : GitHub par une recherche GraphQL (relectures datées comprises ; sans jeton, liste REST sans relectures),
+    GitLab (approbations non datées : revues « non mesurées »), Gitea (relectures des 60 PR les plus récentes) ;
+    Bitbucket et Azure DevOps : « non mesuré » ; 300 PR au plus par dépôt ;
+  - la page s'ouvre aussi sans outil de tickets relié : elle montre alors les PR et propose de relier un outil.
+- Page Équipe, entre Sécurité et Gouvernance IA (HXG-98, Epic HXG-95), Desktop et extension : les tickets de l'outil
+  relié pour les projets des dépôts suivis, calculés sur ce poste avec ses jetons (rien n'est publié, relu au plus tous
+  les quarts d'heure) :
+  - tickets traités sur 7, 30 ou 90 jours et écart avec la période précédente, en cours, en revue, à faire, sans
+    responsable, délai médian création → résolution (date de création lue dans Jira et Linear) ;
+  - tickets traités par semaine (six semaines ISO) ;
+  - par personne, d'après le responsable du ticket relié par l'annuaire (« non relié » sinon) : un non-responsable voit
+    sa ligne, « non assigné » et les totaux ; avertissement quand plus d'un ticket traité sur quatre n'a pas de
+    responsable (répartition peu fiable) ;
+  - par projet de l'outil.
+- Annuaire de l'équipe et responsables, premier pas de la vue Équipe sur données réelles (HXG-97, Epic HXG-95) :
+  - chaque poste propose ses identifiants dans son fichier `postes/&lt;nom&gt;.json` du dépôt de gouvernance : e-mails git
+    (globale et des dépôts suivis), login sur les forges des dépôts suivis, compte de l'outil de tickets ; relevés au
+    plus une fois par jour, ou par « Relever mes identifiants » ;
+  - un responsable les valide : ils sont recopiés dans `personnes.json`, seule source pour attribuer plus tard commits,
+    PR, revues et tickets (une identité non reliée reste « non attribuée ») ;
+  - responsables listés dans `politique.json → leads` ; tant qu'aucun n'est déclaré, tout le monde voit tout et peut
+    valider (comportement d'avant) ; le dernier responsable ne peut pas se retirer ;
+  - dans la carte Équipe de Gouvernance IA (Desktop et extension), un non-responsable voit sa ligne et les totaux, les
+    autres personnes sont regroupées. Masquage d'affichage, pas une sécurité : les mêmes données restent lisibles dans
+    Jira et sur la forge.
+
+</description>
+      <pubDate>Mon, 12 Oct 2026 13:18:39 +00:00</pubDate>
+      <sparkle:version>0.33.0</sparkle:version>
+      <sparkle:shortVersionString>0.33.0</sparkle:shortVersionString>
+      <sparkle:channel>beta</sparkle:channel>
+      <enclosure url="https://github.com/mDynamic-git/hexagit-releases/releases/download/desktop-v0.33.0/hexagit-0.33.0-1.x86_64.rpm" sparkle:version="0.33.0" sparkle:shortVersionString="0.33.0" length="45519359" sparkle:os="linux-package-x64" type="application/octet-stream" sparkle:criticalUpdate="false" sparkle:signature="RPwxLejsn/1nqdmNtWabtlc31oKJNplYTqt7bl+LjQADLb60cpNWuS42R8AEn5NV/OoLEil8VkOseWKQjRKMCA==" />
+    </item>
+    <item>
+      <title>Hexagit 0.33.0</title>
+      <description>
+Recette : mise à jour automatique sur les trois systèmes (HGRE7), avec les réserves de la 1.45 (HGRE7-6). Signature
+des paquets (HXG-33) toujours en attente des comptes.
+
+### Ajouté
+- Mise à jour automatique d'Hexagit Desktop (HXG-32) : flux signé Ed25519 (NetSparkle, sans son interface) dans le dépôt
+  public `mDynamic-git/hexagit-releases`, vérifié au lancement (une fois par jour) et sur demande (Réglages › À propos) ;
+  canaux stable et bêta ; fenêtre « Installer et redémarrer / Plus tard / Ignorer cette version » ; paquet vérifié avant
+  installation, flux ou paquet altéré refusé ; Windows et macOS : nouvelle version posée à côté puis échangée au
+  redémarrage, AppImage remplacée, .deb / .rpm / tar.gz : lien ; `Hexagit --mettre-a-jour` sans interface ; coupure par
+  réglage, `HEXAGIT_NO_UPDATE` ou `desktopUpdates: false` (politique d'équipe) ; CI : étiquette `desktop-vX.Y.Z` →
+  version bêta publiée, promotion en stable après recette. Procédure : `docs/mises-a-jour.md`.
+- Page Équipe : CI verte du premier coup sur les PR fusionnées (HXG-101, Epic HXG-95), Desktop et extension :
+  indicateur de l'équipe, colonnes par personne et par dépôt. Une PR est « verte du premier coup » quand le premier
+  résultat de CI terminé sur ses commits, du plus ancien au plus récent, est un succès ; une PR sans CI terminée ne
+  compte pas (« non mesuré », jamais 0 %). Lecture : GitHub dans la même recherche GraphQL que les PR (état combiné
+  des 20 premiers commits), GitLab (premier pipeline de la MR) et Gitea (statut des premiers commits), pour les 60 PR
+  les plus récentes sur ces deux forges.
+- Page Équipe : agents et coût IA (HXG-100, Epic HXG-95), Desktop et extension :
+  - part du code écrite avec un agent sur la période : lignes ajoutées par commit (historique git local des dépôts
+    suivis, branche courante, sans les fusions ; « avec un agent » : ligne `Agent:` ou co-auteur d'agent), par auteur
+    relié par l'annuaire (adresse git) et par dépôt ; une copie de travail compte une fois avec son dépôt ;
+  - coût IA (€ HT), tokens et sessions par personne, d'après les fichiers `postes/*.json` déjà publiés dans le dépôt de
+    gouvernance (poste rattaché à la fiche du même nom), et par fournisseur ; même visibilité que les tickets et les PR ;
+  - l'usage publié par chaque poste porte désormais le nombre de sessions actives par jour (`sessions`, 0 dans les
+    fichiers des postes d'avant la 1.46 : « non mesuré » tant qu'aucun poste ne le publie).
+- Page Équipe : PR fusionnées et revues des dépôts suivis (HXG-99, Epic HXG-95), Desktop et extension, lues sur les
+  forges avec les jetons du poste (rien n'est publié, relu au plus tous les quarts d'heure) :
+  - PR fusionnées sur la période et écart avec la précédente, dont celles faites avec un agent (branche `tache/*` ou
+    signature d'agent dans le titre ou la description), par semaine en barres empilées humaines / avec un agent ;
+  - revues données (PR relues par une autre personne), délai médian ouverture → première revue ;
+  - lien ticket ↔ PR par une clé dans la branche, le titre ou une ligne `Refs:` ; délai médian création du ticket →
+    fusion ; PR sans ticket comptées par dépôt ;
+  - par personne (login de la forge relié par l'annuaire, même visibilité que les tickets) et par dépôt ;
+  - lecture : GitHub par une recherche GraphQL (relectures datées comprises ; sans jeton, liste REST sans relectures),
+    GitLab (approbations non datées : revues « non mesurées »), Gitea (relectures des 60 PR les plus récentes) ;
+    Bitbucket et Azure DevOps : « non mesuré » ; 300 PR au plus par dépôt ;
+  - la page s'ouvre aussi sans outil de tickets relié : elle montre alors les PR et propose de relier un outil.
+- Page Équipe, entre Sécurité et Gouvernance IA (HXG-98, Epic HXG-95), Desktop et extension : les tickets de l'outil
+  relié pour les projets des dépôts suivis, calculés sur ce poste avec ses jetons (rien n'est publié, relu au plus tous
+  les quarts d'heure) :
+  - tickets traités sur 7, 30 ou 90 jours et écart avec la période précédente, en cours, en revue, à faire, sans
+    responsable, délai médian création → résolution (date de création lue dans Jira et Linear) ;
+  - tickets traités par semaine (six semaines ISO) ;
+  - par personne, d'après le responsable du ticket relié par l'annuaire (« non relié » sinon) : un non-responsable voit
+    sa ligne, « non assigné » et les totaux ; avertissement quand plus d'un ticket traité sur quatre n'a pas de
+    responsable (répartition peu fiable) ;
+  - par projet de l'outil.
+- Annuaire de l'équipe et responsables, premier pas de la vue Équipe sur données réelles (HXG-97, Epic HXG-95) :
+  - chaque poste propose ses identifiants dans son fichier `postes/&lt;nom&gt;.json` du dépôt de gouvernance : e-mails git
+    (globale et des dépôts suivis), login sur les forges des dépôts suivis, compte de l'outil de tickets ; relevés au
+    plus une fois par jour, ou par « Relever mes identifiants » ;
+  - un responsable les valide : ils sont recopiés dans `personnes.json`, seule source pour attribuer plus tard commits,
+    PR, revues et tickets (une identité non reliée reste « non attribuée ») ;
+  - responsables listés dans `politique.json → leads` ; tant qu'aucun n'est déclaré, tout le monde voit tout et peut
+    valider (comportement d'avant) ; le dernier responsable ne peut pas se retirer ;
+  - dans la carte Équipe de Gouvernance IA (Desktop et extension), un non-responsable voit sa ligne et les totaux, les
+    autres personnes sont regroupées. Masquage d'affichage, pas une sécurité : les mêmes données restent lisibles dans
+    Jira et sur la forge.
+
+</description>
+      <pubDate>Mon, 12 Oct 2026 13:18:39 +00:00</pubDate>
+      <sparkle:version>0.33.0</sparkle:version>
+      <sparkle:shortVersionString>0.33.0</sparkle:shortVersionString>
+      <sparkle:channel>beta</sparkle:channel>
+      <enclosure url="https://github.com/mDynamic-git/hexagit-releases/releases/download/desktop-v0.33.0/hexagit_0.33.0_amd64.deb" sparkle:version="0.33.0" sparkle:shortVersionString="0.33.0" length="36514486" sparkle:os="linux-package-x64" type="application/octet-stream" sparkle:criticalUpdate="false" sparkle:signature="EH2MvboCZnVwCh3qYf5jBkh8lh6upilripW5xKv91vtt01dRe3MxFeBPaxaoV3+bdfkWJ3WxOo0McxPSLypMAA==" />
+    </item>
+  </channel>
+</rss>
